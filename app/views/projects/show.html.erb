@@ -1,0 +1,14 @@
+<h1><%= @project.name %></h1>
+<p><%= @project.description %></p>
+
+<h3>Attachments</h3>
+<div>
+  <% @project.attachments.each do |attachment| %>
+    <div class="mb-3">
+      <%= image_tag attachment, class: "img-thumbnail", width: 300 if attachment.content_type.start_with?("image/") %>
+      <p><%= link_to "Download", rails_blob_path(attachment, disposition: "attachment") %></p>
+    </div>
+  <% end %>
+</div>
+
+<%= link_to "Back to Projects", projects_path, class: "btn btn-secondary mt-3" %>
