@@ -1,8 +1,12 @@
 Rails.application.routes.draw do
-  get "projects/index"
   devise_for :users
-  root to: "projects#index"
-  resources :projects
+  root to: "galleries#index"
+  resources :galleries do
+    member do
+      delete :remove_attachment
+    end
+  end
+
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.

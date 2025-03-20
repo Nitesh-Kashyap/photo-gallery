@@ -1,0 +1,33 @@
+<h1><%= @gallery.name %></h1>
+<p><%= @gallery.description %></p>
+
+<h3>Attachments</h3>
+<div class="row">
+  <% @gallery.attachments.each do |attachment| %>
+    <div class="col-md-4">
+      <div class="card mb-3">
+        <% if attachment.image? %>
+          <%= image_tag attachment, class: "card-img-top img-thumbnail", width: 300 %>
+        <% end %>
+        <div class="card-body text-center">
+          <p><%= link_to "Download", rails_blob_path(attachment, disposition: "attachment"), class: "btn btn-primary btn-sm" %></p>
+          
+          <%= button_to "Delete Photo", remove_attachment_gallery_path(@gallery, attachment_id: attachment.id), 
+            method: :delete, data: { confirm: "Are you sure you want to delete this photo?" }, 
+            class: "btn btn-danger btn-sm" %>
+        </div>
+      </div>
+    </div>
+  <% end %>
+</div>
+
+<h3 class="mt-4">Add More Photos</h3>
+<%= form_with model: @gallery, url: gallery_path(@gallery), method: :patch, local: true, html: { multipart: true } do |f| %>
+  <div class="mb-3">
+    <%= f.label :attachments, "Select New Photos", class: "form-label" %>
+    <%= f.file_field :attachments, multiple: true, class: "form-control" %>
+  </div>
+  <%= f.submit "Upload Photos", class: "btn btn-primary" %>
+<% end %>
+
+<%= link_to "Back to Galleries", galleries_path, class: "btn btn-secondary mt-3" %>

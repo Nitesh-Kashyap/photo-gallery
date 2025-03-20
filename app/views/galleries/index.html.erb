@@ -1,0 +1,29 @@
+<h1 class="mb-4 text-center">Galleries</h1>
+
+<div class="d-flex justify-content-between mb-3">
+  <%= link_to "New Gallery", new_gallery_path, class: "btn btn-primary" %>
+</div>
+
+<div class="row">
+  <% @galleries.each do |gallery| %>
+    <div class="col-md-4">
+      <div class="card shadow-sm mb-4">
+        <% if gallery.attachments.attached? && gallery.attachments.first.content_type.start_with?("image/") %>
+          <%= image_tag gallery.attachments.first, class: "card-img-top", width: 300, alt: gallery.name %>
+        <% else %>
+          <div class="card-img-top text-center p-4 bg-light">
+            <i class="fas fa-image fa-3x text-muted"></i>
+          </div>
+        <% end %>
+        <div class="card-body text-center">
+          <h5 class="card-title"><%= gallery.name %></h5>
+          <p class="card-text"><%= truncate(gallery.description, length: 100) %></p>
+          <div class="d-flex justify-content-center gap-2">
+            <%= link_to "View", gallery_path(gallery), class: "btn btn-success btn-sm" %>
+            <%= button_to "Delete", gallery_path(gallery), method: :delete, data: { confirm: "Are you sure?" }, class: "btn btn-danger btn-sm" %>
+          </div>
+        </div>
+      </div>
+    </div>
+  <% end %>
+</div>
