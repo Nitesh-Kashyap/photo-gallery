@@ -1,5 +1,5 @@
 class Gallery < ApplicationRecord
+  belongs_to :restaurant
   has_many_attached :attachments
-  validates :name, presence: true
-  validates :description, presence: true
+  validates :name, :description, presence: true
 end
